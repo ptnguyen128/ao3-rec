@@ -76,9 +76,9 @@ def get_ids():
             seen_ids.append(t)
     return ids
 
-def main():
-    get_args()
-    ids = get_ids()
-    print(ids)
+# def main():
+#     get_args()
+#     ids = get_ids()
+#     print(ids)
 
-main()
+# main()
