@@ -6,6 +6,18 @@ import sys
 from unidecode import unidecode
 import pandas as pd, numpy as np
 
+# HELPER FUNCTIONS
+def most_common(lst):
+    return max(set(lst), key=lst.count)
+
+def flatten_list(x):
+    result = []
+    for el in x:
+        if hasattr(el, "__iter__") and not isinstance(el, str):
+            result.extend(flatten_list(el))
+        else:
+            result.append(el)
+    return result
 
 # class and start_pages
 class AO3Page:
