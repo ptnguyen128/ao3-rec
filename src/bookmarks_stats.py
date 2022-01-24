@@ -7,7 +7,7 @@ import numpy as np
 import plotly.express as px
 from collections import Counter
 
-from .base_ao3 import AO3Page, most_common, flatten_list
+from src.base_ao3 import AO3Page, most_common, flatten_list
 
 @st.cache
 def load_metadata(username, oneshot_only, include_kudos, include_bookmarks):
