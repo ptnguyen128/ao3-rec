@@ -11,6 +11,12 @@ def run():
     include_bookmarks = False
 
     # Main setup
+    st.title('AO3 Fanfic Recommender')
+    st.caption("""
+    This app takes in your AO3 bookmarks and recommends other fanfics that you might enjoy! (Hopefully) \n
+    Created by [@ausoIeil](https://twitter.com/ausoIeil). Still under development.
+    """)
+
     st.header("Your Bookmarks")
     st.markdown("""
         Please enter a valid AO3 username.
@@ -31,9 +37,6 @@ def run():
     # button to navigate to bookmarks stats page
     if st.button("Click here to check your bookmarks' stats."):
         bookmarks_stats.get_bookmarks_stats(username, oneshot_only, include_kudos, include_bookmarks)
-
-def get_username():
-    return username
 
 
 if __name__ == "__main__":
