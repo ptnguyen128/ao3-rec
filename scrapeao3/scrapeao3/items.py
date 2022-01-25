@@ -1,5 +1,5 @@
 from scrapy.item import Item, Field
-from scrapy.loader.processors import MapCompose
+from itemloaders.processors import MapCompose
 
 def get_work_id(text):
     # check if string includes 'works'

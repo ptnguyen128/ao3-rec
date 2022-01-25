@@ -29,12 +29,8 @@ st.markdown("""
 ## main input - username
 username = st.text_input('AO3 username', value="")
 file_path = f"data/{username}_bookmarks.txt"
-if not path.exists(file_path):
-    with st.spinner("Just a little bit..."):
-        p = subprocess.Popen([f"{sys.executable}", "crawlers.py", f"{username}"])
-        poll = p.poll()
-        if poll is not None:
-            st.success("Done!")
+subprocess.Popen([f"{sys.executable}", "crawlers.py", f"{username}"])
+
 with st.expander("Not sure if your bookmarks are public?"):
     st.write(f"""
         Click [here](https://archiveofourown.org/users/{username}/bookmarks) to see your bookmarks. \n
@@ -52,17 +48,17 @@ if 'oneshot only' in filters:
 # if 'include_bookmarks' in filters:
 #     include_bookmarks = True
 
-# button to navigate to bookmarks stats page
-with st.expander("Click here to check your bookmarks' stats."):
+# button to see bookmarks stats
+if st.button("Reload page to see your stats!"):
+    st.experimental_rerun()
+with st.expander("Your bookmarks' stats."):
     try:
         bookmarks_stats.get_bookmarks_stats(username, oneshot_only, include_kudos, include_bookmarks)
     except JSONDecodeError:
         with st.spinner("Just a little bit..."):
-            time.sleep(20)
+            time.sleep(10)
             st.error("Please wait and reload the page...")
 
-if st.button("Reload page to see your stats!"):
-    st.experimental_rerun()
 # number of fics to display
 # number = st.slider("How many fics would you like to read?", 1, 20)
 
