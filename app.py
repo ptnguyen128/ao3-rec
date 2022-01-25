@@ -41,8 +41,6 @@ with st.expander("Not sure if your bookmarks are public?"):
         Click on the `Edit` button of each one, uncheck `Private bookmark` and check the `Rec` box instead!
         """)
 
-if st.button("Reload page to see your stats!"):
-    st.experimental_rerun()
 # TODO: include these later
 # filter_options = ['oneshot only', 'include_kudos', 'include_bookmarks']
 filter_options = ['oneshot only']
@@ -59,7 +57,12 @@ with st.expander("Click here to check your bookmarks' stats."):
     try:
         bookmarks_stats.get_bookmarks_stats(username, oneshot_only, include_kudos, include_bookmarks)
     except JSONDecodeError:
-        st.error("Please wait and reload the page...")
+        with st.spinner("Just a little bit..."):
+            time.sleep(20)
+            st.error("Please wait and reload the page...")
+
+if st.button("Reload page to see your stats!"):
+    st.experimental_rerun()
 # number of fics to display
 # number = st.slider("How many fics would you like to read?", 1, 20)
 
