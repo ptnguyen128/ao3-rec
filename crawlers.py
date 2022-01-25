@@ -1,10 +1,8 @@
-import json
+import sys
 import os
-import pandas as pd
-import streamlit as st
 
 from scrapy.crawler import CrawlerProcess
-from scrapeao3.spiders.bookmarks import BookmarkScraper
+from scrapeao3.scrapeao3.spiders.bookmarks import BookmarkScraper
 
 def bookmarks_crawler(username):
     """
@@ -24,3 +22,6 @@ def bookmarks_crawler(username):
                   start_urls=[f'https://archiveofourown.org/users/{username}/bookmarks'])
     process.start()
 
+
+if __name__ == '__main__':
+    bookmarks_crawler(sys.argv[1])

@@ -32,6 +32,7 @@ class WorkItem(Item):
     work_url = Field(
         input_processor=MapCompose(get_work_url)
     )
+    title = Field()
     author = Field()
     author_url = Field(
         input_processor=MapCompose(get_author_url)
