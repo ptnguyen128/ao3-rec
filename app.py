@@ -1,3 +1,5 @@
+from json import JSONDecodeError
+
 import streamlit as st
 from src import bookmarks_stats
 import subprocess
@@ -54,8 +56,10 @@ if 'oneshot only' in filters:
 
 # button to navigate to bookmarks stats page
 with st.expander("Click here to check your bookmarks' stats."):
-    bookmarks_stats.get_bookmarks_stats(username, oneshot_only, include_kudos, include_bookmarks)
-
+    try:
+        bookmarks_stats.get_bookmarks_stats(username, oneshot_only, include_kudos, include_bookmarks)
+    except JSONDecodeError:
+        st.error("Please wait and reload the page...")
 # number of fics to display
 # number = st.slider("How many fics would you like to read?", 1, 20)
 
