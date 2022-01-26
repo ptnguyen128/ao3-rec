@@ -45,10 +45,11 @@ def get_bookmarks_stats(username, oneshot_only, completed_only,
         # transform columns
         for c in meta_df.columns:
             if c in ['title', 'work_id', 'work_url', 'status', 'summary',
-                     'language', 'published', 'chapters', 'rating']:
+                     'language', 'published', 'chapters', 'rating',
+                     'words', 'comments', 'bookmarks', 'kudos', 'hits']:
                 meta_df[c] = meta_df[c].apply(lambda x: ''.join(x))
-            if c in ['words', 'comments', 'bookmarks', 'kudos', 'hits']:
-                meta_df[c] = meta_df[c].astype(float)
+                if c in ['words', 'comments', 'bookmarks', 'kudos', 'hits']:
+                    meta_df[c] = meta_df[c].astype(float)
 
         # oneshot filter
         if oneshot_only:
