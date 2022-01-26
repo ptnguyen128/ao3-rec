@@ -10,9 +10,9 @@ _debug_option = False
 
 
 @st.cache
-def wait_a_bit(sleep_time):
+def wait_a_bit(usr, sleep_time):
     time.sleep(sleep_time)
-    return sleep_time
+    return usr
 
 # Main setup
 st.title('AO3 Fanfic Recommender')
@@ -38,7 +38,7 @@ if username != '':
     subprocess.Popen([f"{sys.executable}", "crawlers.py", f"{username}"])
     # artificial wait time until subprocess finishes
     with st.spinner("Just a little bit..."):
-        r = wait_a_bit(30)
+        r = wait_a_bit(username, 30)
 
     # set all filter vars to false
     oneshot_only = False
