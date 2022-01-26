@@ -37,6 +37,7 @@ class WorkItem(Item):
     author_url = Field(
         input_processor=MapCompose(get_author_url)
     )
+    status = Field()
     language = Field(
         input_processor=MapCompose(strip_blanks)
     )

@@ -1,6 +1,8 @@
 import os
 import scrapy
 import time
+from scrapy.linkextractors import LinkExtractor
+from scrapy.spiders import Rule
 from scrapy.loader import ItemLoader
 from ..items import WorkItem
 
@@ -9,26 +11,25 @@ class BookmarkScraper(scrapy.Spider):
     name = 'bookmarks'
 
     def parse(self, response):
-        bookmarks = response.css(".bookmark.blurb.group")
-        for b in bookmarks:
-            loader = ItemLoader(item=WorkItem(), selector=b)
-            loader.add_value('title', b.css('h4.heading>a::text').get())
+        headers = response.css("li.bookmark.blurb.group")
+        for h in headers:
+            loader = ItemLoader(item=WorkItem(), selector=h)
+            loader.add_value('title', h.css('h4.heading>a::text').get())
             loader.add_css('author', 'h4.heading>a[rel=author]::text')
             loader.add_css('work_id', 'h4.heading>a::attr(href)')
             loader.add_css('work_url', 'h4.heading>a::attr(href)')
             loader.add_css('author_url', 'h4.heading>a[rel=author]::attr(href)')
-            loader.add_css('summary', '.userstuff.summary>p::text')
+            loader.add_css('status', '.iswip>span::text')
+            loader.add_value('summary', '.userstuff.summary>p::text')
             work_item = loader.load_item()
-            links = b.css('h4.heading>a::attr(href)').extract()
+            links = h.css('h4.heading>a::attr(href)').extract()
             for link in links:
                 if 'works' in link:
                     bookmark_url = f'https://archiveofourown.com{link}?view_adult=true'
-            yield response.follow(bookmark_url, self.parse_work, meta={'work_item': work_item})
+                    yield response.follow(bookmark_url, self.parse_work, meta={'work_item': work_item})
 
-        # go to next page
-        for a in response.css('li.next a'):
-            time.sleep(10)
-            yield response.follow(a, self.parse)
+        # next_url = response.css("ol.pagination.actions>li.next").get()
+        # yield response.follow(next_url, callback=self.parse)
 
     def parse_work(self, response):
         work_item = response.meta['work_item']

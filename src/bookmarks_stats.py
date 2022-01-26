@@ -1,7 +1,7 @@
 import json
-from os import path
-import csv
+import os
 
+import boto3
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -11,22 +11,40 @@ from collections import Counter
 from src import helpers as h
 
 
-def get_bookmarks_stats(username, oneshot_only, include_kudos, include_bookmarks):
-    # Scrape user's bookmarked fics
-    file_path = f"data/{username}_bookmarks.txt"
-    if path.exists(file_path):
-        with open(file_path) as f:
-            meta_dict = json.load(f)
+def get_bookmarks_stats(username, oneshot_only, completed_only,
+                        include_kudos, include_bookmarks, debug=False):
+    if debug:
+        # Scrape user's bookmarked fics
+        file_path = f"data/{username}.txt"
+        if os.path.exists(file_path):
+            with open(file_path) as f:
+                meta_dict = json.load(f)
+        else:
+            meta_dict = {}
+        meta_df = pd.DataFrame(meta_dict)
     else:
-        meta_dict = {}
-    meta_df = pd.DataFrame(meta_dict)
+        # Read bookmark metadata file from S3
+        h.set_aws_creds()
+        s3_resource = boto3.resource('s3',
+                                     aws_access_key_id=os.environ['AWS_ACCESS_KEY_ID'],
+                                     aws_secret_access_key=os.environ['AWS_SECRET_ACCESS_KEY'])
+        bucket = os.environ['S3_BUCKET_NAME']
+        file_key = f'bookmarks/{username}.txt'
+
+        try:
+            content_object = s3_resource.Object(bucket, file_key)
+            file_content = content_object.get()['Body'].read().decode('utf-8')
+            meta_dict = json.loads(file_content)
+        except:
+            meta_dict = {}
+        meta_df = pd.DataFrame(meta_dict)
 
     if len(meta_df) == 0:
         st.error("Please enter a valid AO3 username and make sure your bookmarks are public!")
     else:
         # transform columns
         for c in meta_df.columns:
-            if c not in ['fandom', 'pairings', 'tags']:
+            if c not in ['author', 'fandom', 'pairings', 'tags', 'category']:
                 meta_df[c] = meta_df[c].apply(lambda x: ''.join(x))
                 if c in ['words', 'comments', 'bookmarks', 'kudos', 'hits']:
                     meta_df[c] = meta_df[c].astype(float)
@@ -34,6 +52,9 @@ def get_bookmarks_stats(username, oneshot_only, include_kudos, include_bookmarks
         # oneshot filter
         if oneshot_only:
             meta_df = meta_df[meta_df['chapters'] == '1/1']
+        # completion filter
+        if completed_only:
+            meta_df = meta_df[meta_df['status'] == 'Complete Work']
 
         authors_cnt = len(np.unique(h.flatten_list(list(meta_df.author))))
         max_lang = h.most_common(h.flatten_list(list(meta_df.language)))

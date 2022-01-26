@@ -1,4 +1,6 @@
 from botocore.client import ClientError
+import os
+from dotenv import dotenv_values
 
 # HELPER FUNCTIONS
 def most_common(lst):
@@ -23,3 +25,9 @@ def _s3_file_exists(client, bucket, file_key):
         if exc.response['Error']['Code'] != '404':
             raise
     return file_found
+
+def set_aws_creds():
+    if os.path.exists('.env'):
+        config = dotenv_values(".env")
+        for k, v in config.items():
+            os.environ[k] = v
