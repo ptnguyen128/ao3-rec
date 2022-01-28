@@ -6,7 +6,7 @@ import subprocess
 import sys
 import time
 
-_debug_option = False
+_debug_option = True
 
 
 @st.cache

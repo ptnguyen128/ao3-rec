@@ -6,7 +6,7 @@ from scrapeao3.src.helpers import set_aws_creds, _s3_file_exists
 from scrapeao3.run_scraper import Scraper
 
 _MAX_PAGE = 30
-_debug_option = False
+_debug_option = True
 
 
 def bookmarks_crawler(username, debug=False):

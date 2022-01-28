@@ -15,24 +15,8 @@ NEWSPIDER_MODULE = 'scrapeao3.scrapeao3.spiders'
 # Rotating proxy settings
 ROTATING_PROXY_PAGE_RETRY_TIMES = 7
 ROTATING_PROXY_BAN_POLICY = 'scrapeao3.scrapeao3.policy.BanPolicy'
-# ROTATING_PROXY_LIST_PATH = 'scrapeao3/HTTPS-proxies.txt'
-ROTATING_PROXY_LIST = [
-    'https://ctljdccd:mewyb4m8zo9l@209.127.191.180:9279',
-    'https://ctljdccd:mewyb4m8zo9l@45.142.28.83:8094',
-    'https://ctljdccd:mewyb4m8zo9l@45.95.99.20:7580',
-    'https://ctljdccd:mewyb4m8zo9l@45.136.231.43:7099',
-    'https://ctljdccd:mewyb4m8zo9l@45.95.99.226:7786',
-    'https://ctljdccd:mewyb4m8zo9l@45.95.96.187:8746',
-    'https://ctljdccd:mewyb4m8zo9l@45.95.96.237:8796',
-    'https://ctljdccd:mewyb4m8zo9l@193.8.127.189:9271',
-    'https://ctljdccd:mewyb4m8zo9l@193.8.56.119:9183',
-    'https://ctljdccd:mewyb4m8zo9l@45.94.47.108:8152',
-    # # https
-    # '64.235.204.107:3128', '98.12.195.129:443', '51.195.76.214:3128',
-    # '181.143.94.42:999', '190.104.195.174:3001', '154.236.189.19:8080',
-    # '54.36.250.193:80', '47.243.135.104:8080', '83.149.72.69:443',
-    # '170.254.229.185:999', '85.25.196.76:5566', '103.206.8.114:8080'
-]
+ROTATING_PROXY_LIST_PATH = 'scrapeao3/scrapeao3/HTTPS-proxies.txt'
+
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = 'scrapeao3 (+http://www.yourdomain.com)'
