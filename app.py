@@ -15,11 +15,19 @@ def wait_a_bit(usr, sleep_time):
     return usr
 
 # Main setup
-st.title('AO3 Fanfic Recommender')
+# st.title('AO3 Fanfic Recommender')
+# st.caption("""
+# This app takes in your AO3 bookmarks and recommends other fanfics that you might enjoy! (Hopefully) \n
+# Created by [@ausoIeil](https://twitter.com/ausoIeil). Still under development.
+# """)
+
+st.title('Your AO3 Bookmarks Wrapped')
+st.subheader("What do you know about your favorite fics?")
 st.caption("""
-This app takes in your AO3 bookmarks and recommends other fanfics that you might enjoy! (Hopefully) \n
-Created by [@ausoIeil](https://twitter.com/ausoIeil). Still under development.
+Created by [@ausoIeil](https://twitter.com/ausoIeil). 
+Still under development. Coming up next: recommend you fics to check out based on your bookmarks!
 """)
+
 st.header("Your Bookmarks")
 st.markdown("""
     Please enter a valid AO3 username.
