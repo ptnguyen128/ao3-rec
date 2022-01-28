@@ -5,9 +5,14 @@ plotly==5.5.0
 streamlit==1.4.0
 lxml==4.7.1
 scrapy >= 1.7.3
+Twisted>=21.7.0
 boto3>=1.20.42
 botocore>=1.23.42
 numpy~=1.22.1
 python-dotenv~=0.19.2
 argparse~=1.4.0
 scrapy-rotating-proxies>=0.6.2
+
+proxybroker~=0.3.2
+itemloaders~=1.0.4
+itemadapter~=0.4.0

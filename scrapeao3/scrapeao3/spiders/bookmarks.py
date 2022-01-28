@@ -1,8 +1,4 @@
-import os
 import scrapy
-import time
-from scrapy.linkextractors import LinkExtractor
-from scrapy.spiders import Rule
 from scrapy.loader import ItemLoader
 from ..items import WorkItem
 

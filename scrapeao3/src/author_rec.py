@@ -5,8 +5,6 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 
-from src.bookmarks_stats import load_metadata
-from src.base_ao3 import AO3Page, flatten_list, update_meta_dict
 
 
 @st.cache(suppress_st_warning=True)

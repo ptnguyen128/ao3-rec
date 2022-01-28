@@ -1,7 +1,7 @@
 from json import JSONDecodeError
 
 import streamlit as st
-from src import bookmarks_stats
+from scrapeao3.src import bookmarks_stats
 import subprocess
 import sys
 import time
@@ -35,35 +35,38 @@ with st.expander("Not sure if your bookmarks are public?"):
         """)
 
 if username != '':
-    subprocess.Popen([f"{sys.executable}", "crawlers.py", f"{username}"])
-    # artificial wait time until subprocess finishes
+    def run_crawler():
+        p = subprocess.Popen([f"{sys.executable}", "crawlers.py", f"{username}"])
+        p.wait()
+        return [p.returncode, p.communicate(timeout=60)[0]]
     with st.spinner("Just a little bit..."):
-        r = wait_a_bit(username, 30)
+        #     r = wait_a_bit(username, 30)
+        is_done = run_crawler()[0]
+    if is_done is not None:
+        # set all filter vars to false
+        oneshot_only = False
+        completed_only = False
+        include_kudos = False
+        include_bookmarks = False
 
-    # set all filter vars to false
-    oneshot_only = False
-    completed_only = False
-    include_kudos = False
-    include_bookmarks = False
-
-    filter_options = ['oneshot only', 'completed only']
-    filters = st.multiselect("Filters", filter_options)
-    if 'oneshot only' in filters:
-        oneshot_only = True
-    if 'completed only' in filters:
-        completed_only = True
-    # if 'include_kudos' in filters:
-    #     include_kudos = True
-    # if 'include_bookmarks' in filters:
-    #     include_bookmarks = True
-    with st.expander("Your bookmarks' stats."):
-        try:
-            bookmarks_stats.get_bookmarks_stats(username, oneshot_only, completed_only,
-                                                include_kudos, include_bookmarks, debug=_debug_option)
-        except JSONDecodeError:
-            st.error("Please check your username again, or click this button try again in a few.")
-            if st.button("Click to load your results"):
-                st.experimental_rerun()
+        filter_options = ['oneshot only', 'completed only']
+        filters = st.multiselect("Filters", filter_options)
+        if 'oneshot only' in filters:
+            oneshot_only = True
+        if 'completed only' in filters:
+            completed_only = True
+        # if 'include_kudos' in filters:
+        #     include_kudos = True
+        # if 'include_bookmarks' in filters:
+        #     include_bookmarks = True
+        with st.expander("Your bookmarks' stats."):
+            try:
+                bookmarks_stats.get_bookmarks_stats(username, oneshot_only, completed_only,
+                                                    include_kudos, include_bookmarks, debug=_debug_option)
+            except JSONDecodeError:
+                st.error("Please check your username again, or click this button try again in a few.")
+                if st.button("Click to load your results"):
+                    st.experimental_rerun()
 
 # number of fics to display
 # number = st.slider("How many fics would you like to read?", 1, 20)

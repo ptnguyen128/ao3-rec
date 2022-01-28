@@ -8,7 +8,7 @@ import numpy as np
 import plotly.express as px
 from collections import Counter
 
-from src import helpers as h
+import scrapeao3.src.helpers as h
 
 
 def get_bookmarks_stats(username, oneshot_only, completed_only,
