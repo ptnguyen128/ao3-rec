@@ -5,7 +5,6 @@ import boto3
 from scrapeao3.src.helpers import set_aws_creds, _s3_file_exists
 from scrapeao3.run_scraper import Scraper
 
-_MAX_PAGE = 30
 _debug_option = False
 
 
@@ -14,10 +13,6 @@ def bookmarks_crawler(username, debug=False):
     Given a username, scrape user's bookmark page
     and write a json file to output
     """
-    crawl_urls = []
-    for page in range(1, _MAX_PAGE):
-        crawl_urls.append(f'https://archiveofourown.org/users/{username}/bookmarks?page={page}')
-
     if debug:
         if not os.path.exists('data'):
             os.makedirs('data')

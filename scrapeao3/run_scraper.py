@@ -1,4 +1,5 @@
 from scrapeao3.scrapeao3.spiders.bookmarks import BookmarkScraper
+# from scrapeao3.scrapeao3.spiders.testscraper import QuotesSpider
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
 import os
@@ -22,8 +23,8 @@ class Scraper(object):
             bucket = os.environ['S3_BUCKET_NAME']
             file_key = f'bookmarks/{username}.txt'
             s["FEED_URI"] = f's3://{bucket}/{file_key}'
-            s["FEED_FORMAT"] = 'json',
-            s["AWS_ACCESS_KEY_ID"] = os.environ['AWS_ACCESS_KEY_ID'],
+            s["FEED_FORMAT"] = 'json'
+            s["AWS_ACCESS_KEY_ID"] = os.environ['AWS_ACCESS_KEY_ID']
             s["AWS_SECRET_ACCESS_KEY"] = os.environ['AWS_SECRET_ACCESS_KEY']
         elif method == 'file':
             file_path = f"data/{username}.txt"
@@ -31,8 +32,9 @@ class Scraper(object):
 
         # set up process
         self.process = CrawlerProcess(s)
-        # test: self.spider = t.QuotesSpider
 
     def run_spiders(self):
         self.process.crawl(BookmarkScraper, start_urls=self.crawl_urls)
+        # self.process.crawl(QuotesSpider)
         self.process.start()
+
