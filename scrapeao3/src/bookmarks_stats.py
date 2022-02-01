@@ -47,9 +47,9 @@ def get_bookmarks_stats(username, oneshot_only, completed_only,
             if c in ['title', 'work_id', 'work_url', 'status', 'summary',
                      'language', 'published', 'chapters', 'rating',
                      'words', 'comments', 'bookmarks', 'kudos', 'hits']:
-                meta_df[c] = meta_df[c].apply(lambda x: ''.join(x))
+                meta_df[c] = meta_df[c].apply((lambda x: ''.join(x) if pd.notnull(x) else ''))
                 if c in ['words', 'comments', 'bookmarks', 'kudos', 'hits']:
-                    meta_df[c] = meta_df[c].astype(float)
+                    meta_df[c] = meta_df[c].replace('', 0).astype(float)
 
         # oneshot filter
         if oneshot_only:
